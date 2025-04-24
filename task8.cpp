@@ -44,6 +44,58 @@ public:
     }
 };
 
+void print_row(cell cells[], int cols)
+{
+    cout << "+";
+    for (int j = 0; j < cols; j++)
+    {
+        cout << "-----+";
+    }
+    cout << endl;
+
+    cout << "|";
+    for (int i = 0; i < cols; i++)
+    {
+        if (cells[i].state == none)
+        {
+            cout << "     |";
+        }
+        else if (cells[i].state == target)
+        {
+            cout << "  0  |";
+        }
+        else
+        {
+            if (cells[i].sum_right > 0)
+                cout << " " << setw(2) << cells[i].sum_right << "→ |";
+            else
+                cout << "     |";
+        }
+    }
+
+    cout << endl;
+    cout << "|";
+    for (int i = 0; i < cols; i++)
+    {
+        if (cells[i].state == none || cells[i].state == target)
+        {
+            cout << "     |";
+        }
+        else
+        {
+            if (cells[i].sum_down != 0)
+            {
+                cout << " " << setw(2) << cells[i].sum_down << "↓ |";
+            }
+            else
+            {
+                cout << "     |";
+            }
+        }
+    }
+    cout << endl;
+}
+
 int main()
 {
     int rows = 10, cols = 10;
@@ -57,8 +109,8 @@ int main()
         new cell[cols]{{39, 0}, 1, 1, 1, 1, 1, 1, {13, 22}, 1, 1},
         new cell[cols]{{26, 0}, 1, 1, 1, 1, 1, {23, 5}, 1, 1, 1},
         new cell[cols]{{11, 0}, 1, 1, {27, 0}, 1, 1, 1, 1, 1, 1},
-        new cell[cols]{{3, 0}, 1, 1, {23, 0}, 1, 1, 1, 1, 1, 1}
-    };
+        new cell[cols]{{3, 0}, 1, 1, {23, 0}, 1, 1, 1, 1, 1, 1}};
 
+        print_row(c[0], 10);
     return 0;
 }
