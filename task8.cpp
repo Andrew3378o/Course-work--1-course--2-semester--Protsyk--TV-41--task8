@@ -67,7 +67,7 @@ void print_row(cell cells[], int cols)
         else
         {
             if (cells[i].sum_right > 0)
-                cout << " " << setw(2) << cells[i].sum_right << "→ |";
+                cout << " " << setw(2) << cells[i].sum_right << "> |";
             else
                 cout << "     |";
         }
@@ -85,13 +85,25 @@ void print_row(cell cells[], int cols)
         {
             if (cells[i].sum_down != 0)
             {
-                cout << " " << setw(2) << cells[i].sum_down << "↓ |";
+                cout << " " << setw(2) << cells[i].sum_down << "v |";
             }
             else
             {
                 cout << "     |";
             }
         }
+    }
+    cout << endl;
+}
+
+void print(cell *cells[], int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        print_row(cells[i], cols);
+    }
+    cout << "+";
+    for (int j = 0; j < cols; j++)
+    {
+        cout << "-----+";
     }
     cout << endl;
 }
@@ -111,6 +123,6 @@ int main()
         new cell[cols]{{11, 0}, 1, 1, {27, 0}, 1, 1, 1, 1, 1, 1},
         new cell[cols]{{3, 0}, 1, 1, {23, 0}, 1, 1, 1, 1, 1, 1}};
 
-        print_row(c[0], 10);
+        print(c, rows, cols);
     return 0;
 }
