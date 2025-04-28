@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
+#include <unordered_map>
 using namespace std;
 
 enum states
@@ -28,6 +29,7 @@ public:
     {
         sum_right = n[0];
         sum_down = n[1];
+        state = condition;
         return *this;
     }
 
@@ -40,6 +42,7 @@ public:
         else
         {
             state = target;
+            number = n;
         }
         return *this;
     }
@@ -73,8 +76,8 @@ void print_row(cell cells[], int cols)
                 cout << "     |";
         }
     }
-
     cout << endl;
+
     cout << "|";
     for (int i = 0; i < cols; i++)
     {
@@ -97,8 +100,10 @@ void print_row(cell cells[], int cols)
     cout << endl;
 }
 
-void print(cell *cells[], int rows, int cols) {
-    for (int i = 0; i < rows; i++) {
+void print(cell *cells[], int rows, int cols)
+{
+    for (int i = 0; i < rows; i++)
+    {
         print_row(cells[i], cols);
     }
     cout << "+";
@@ -109,54 +114,91 @@ void print(cell *cells[], int rows, int cols) {
     cout << endl;
 }
 
-class combination
+void generate(vector<int> &current, int start, int cells_left, int sum_left, vector<vector<int>> &result)
 {
-    vector<vector<int>> combinations_right;
-    vector<vector<int>> combinations_down;
-
-public:
-    combination(cell c, int cells_right = 0, int cells_down = 0)
+    if (cells_left == 0)
     {
-        if (cells_right > 0 && c.sum_right > 0)
-        {
-            vector<int> current;
-            generate(current, 1, cells_right, c.sum_right, combinations_right);
-        }
-
-        if (cells_down > 0 && c.sum_down > 0)
-        {
-            vector<int> current;
-            generate(current, 1, cells_down, c.sum_down, combinations_down);
-        }
+        if (sum_left == 0)
+            result.push_back(current);
+        return;
     }
 
-    vector<vector<int>>& get_right()
+    for (int i = start; i <= 9; i++)
     {
-        return combinations_right;
+        if (i > sum_left)
+            break;
+        current.push_back(i);
+        generate(current, i + 1, cells_left - 1, sum_left - i, result);
+        current.pop_back();
     }
+}
 
-    vector<vector<int>>& get_down()
-    {
-        return combinations_down;
-    }
+unordered_map<cell*, vector<vector<int>>> generate_horizontal(cell *cells[], int rows, int cols)
+{
+    unordered_map<cell*, vector<vector<int>>> output;
+    vector<int> current_sum;
+    vector<vector<int>> result;
 
-    void generate(vector<int> &current, int start, int cells_left, int sum_left, vector<vector<int>> &result)
+    for (int i = 0; i < rows; i++)
     {
-        if (cells_left == 0)
+        for (int j = 0; j < cols; j++)
         {
-            if (sum_left == 0) result.push_back(current);
-            return;
-        }
+            if (cells[i][j].state == condition && cells[i][j].sum_right > 0)
+            {
+                int d = 0;
+                int k = j + 1;
+                while (k < cols && cells[i][k].state == target)
+                {
+                    d++;
+                    k++;
+                }
 
-        for (int i = start; i <= 9; ++i)
-        {
-            if (i > sum_left) break;
-            current.push_back(i);
-            generate(current, i + 1, cells_left - 1, sum_left - i, result);
-            current.pop_back();
+                if (d > 0)
+                {
+                    generate(current_sum, 1, d, cells[i][j].sum_right, result);
+                    output[&cells[i][j]] = result;
+                    result.clear();
+                    current_sum.clear();
+                }
+            }
         }
     }
-};
+    return output;
+}
+
+
+unordered_map<cell*, vector<vector<int>>> generate_vertical(cell *cells[], int rows, int cols)
+{
+    unordered_map<cell*, vector<vector<int>>> output;
+    vector<int> current_sum;
+    vector<vector<int>> result;
+
+    for (int j = 0; j < rows; j++)
+    {
+        for (int i = 0; i < cols; i++)
+        {
+            if (cells[i][j].state == condition && cells[i][j].sum_down > 0)
+            {
+                int d = 0;
+                int k = i + 1;
+                while (k < cols && cells[k][j].state == target)
+                {
+                    d++;
+                    k++;
+                }
+
+                if (d > 0)
+                {
+                    generate(current_sum, 1, d, cells[i][j].sum_down, result);
+                    output[&cells[i][j]] = result;
+                    result.clear();
+                    current_sum.clear();
+                }
+            }
+        }
+    }
+    return output;
+}
 
 int main()
 {
@@ -171,38 +213,23 @@ int main()
         new cell[cols]{{39, 0}, 1, 1, 1, 1, 1, 1, {13, 22}, 1, 1},
         new cell[cols]{{26, 0}, 1, 1, 1, 1, 1, {23, 5}, 1, 1, 1},
         new cell[cols]{{11, 0}, 1, 1, {27, 0}, 1, 1, 1, 1, 1, 1},
-        new cell[cols]{{3, 0}, 1, 1, {23, 0}, 1, 1, 1, 1, 1, 1}};
+        new cell[cols]{{3, 0}, 1, 1, {23, 0}, 1, 1, 1, 1, 1, 1}
+    };
 
     print(cells, rows, cols);
-    combination comb(cells[0][1], 0, 4);
-    for (int i = 0; i < comb.get_down().size(); i++) {
-        for (int num : comb.get_down()[i]) {
-            cout << num << " ";
-        }
-        cout << endl;
-    }
+    unordered_map<cell*, vector<vector<int>>> comb_hor = generate_horizontal(cells, rows, cols);
+    unordered_map<cell*, vector<vector<int>>> comb_vert = generate_vertical(cells, rows, cols);
 
-    for (int i = 0; i < comb.get_right().size(); i++) {
-        for (int num : comb.get_right()[i]) {
-            cout << num << " ";
-        }
-        cout << endl;
-    }
+    vector<vector<int>> comb = comb_vert[&cells[0][1]];
 
-    cout << endl;
-    combination comb2(cells[4][0], 2, 0);
-    for (int i = 0; i < comb2.get_down().size(); i++) {
-        for (int num : comb2.get_down()[i]) {
-            cout << num << " ";
+    for (auto &nums: comb) {
+        for (int v: nums) {
+            cout << v << " ";
         }
         cout << endl;
     }
+    for (int i = 0; i < rows; i++)
+        delete[] cells[i];
 
-    for (int i = 0; i < comb2.get_right().size(); i++) {
-        for (int num : comb2.get_right()[i]) {
-            cout << num << " ";
-        }
-        cout << endl;
-    }
     return 0;
 }
