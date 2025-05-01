@@ -66,7 +66,7 @@ void print_row(cell cells[], int cols)
         }
         else if (cells[i].state == target)
         {
-            cout << "  0  |";
+            cout << "  "<< cells[i].number << "  |";
         }
         else
         {
@@ -200,6 +200,27 @@ unordered_map<cell*, vector<vector<int>>> generate_vertical(cell *cells[], int r
     return output;
 }
 
+long long count(
+    unordered_map<cell*, vector<vector<int>>> &horizontal,
+    unordered_map<cell*, vector<vector<int>>> &vertical)
+{
+    long long total = 1;
+
+    for (auto &pair : horizontal)
+    {
+        if (!pair.second.empty())
+            total *= pair.second.size();
+    }
+
+    for (auto &pair : vertical)
+    {
+        if (!pair.second.empty())
+            total *= pair.second.size();
+    }
+
+    return total;
+}
+
 int main()
 {
     int rows = 10, cols = 10;
@@ -220,14 +241,9 @@ int main()
     unordered_map<cell*, vector<vector<int>>> comb_hor = generate_horizontal(cells, rows, cols);
     unordered_map<cell*, vector<vector<int>>> comb_vert = generate_vertical(cells, rows, cols);
 
-    vector<vector<int>> comb = comb_vert[&cells[0][1]];
+    long long total = count(comb_hor, comb_vert);
+    cout << "Total:" << total << endl;
 
-    for (auto &nums: comb) {
-        for (int v: nums) {
-            cout << v << " ";
-        }
-        cout << endl;
-    }
     for (int i = 0; i < rows; i++)
         delete[] cells[i];
 
