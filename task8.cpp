@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <vector>
 #include <unordered_map>
+#include <set>
 using namespace std;
 
 enum states
@@ -220,6 +221,40 @@ long long count(
 
     return total;
 }
+
+
+bool contains(vector<int> &big, vector<int> &small)
+{
+    set<int> big_set(big.begin(), big.end());
+    for (int x : small)
+    {
+        if (big_set.find(x) == big_set.end())
+            return false;
+    }
+    return true;
+}
+
+void filter_vectors(vector<vector<int>> &v1, vector<vector<int>> &v2)
+{
+    vector<vector<int>> filtered1, filtered2;
+
+    for (auto &a : v1)
+    {
+        for (auto &b : v2)
+        {
+            if (contains(a, b) || contains(b, a))
+            {
+                filtered1.push_back(a);
+                filtered2.push_back(b);
+                break;
+            }
+        }
+    }
+
+    v1 = filtered1;
+    v2 = filtered2;
+}
+
 
 int main()
 {
