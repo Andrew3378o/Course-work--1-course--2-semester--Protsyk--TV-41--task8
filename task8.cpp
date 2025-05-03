@@ -255,6 +255,52 @@ void filter_vectors(vector<vector<int>> &v1, vector<vector<int>> &v2)
     v2 = filtered2;
 }
 
+cell *find_horizontal(cell *cells[], int rows, int cols, int i, int j)
+{
+    for (int k = j - 1; k >= 0; k--)
+    {
+        if (cells[i][k].state == condition)
+        {
+            return &cells[i][k];
+        }
+    }
+    return nullptr;
+}
+
+cell *find_vertical(cell *cells[], int rows, int cols, int i, int j)
+{
+    for (int k = i - 1; k >= 0; k--)
+    {
+        if (cells[k][j].state == condition)
+        {
+            return &cells[k][j];
+        }
+    }
+    return nullptr;
+}
+
+void filter(cell *cells[], int rows, int cols, unordered_map<cell *, vector<vector<int>>> &horizontal, unordered_map<cell *, vector<vector<int>>> &vertical)
+{
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            cell &c = cells[i][j];
+            if (c.state == target)
+            {
+                cell *vert = find_vertical(cells, rows, cols, i, j);
+                cell *hor = find_horizontal(cells, rows, cols, i, j);
+
+                if (vert && hor)
+                {
+                    vector<vector<int>> &comb_vert = vertical[vert];
+                    vector<vector<int>> &comb_hor = horizontal[hor];
+                    filter_vectors(comb_vert, comb_hor);
+                }
+            }
+        }
+    }
+}
 
 int main()
 {
@@ -278,6 +324,10 @@ int main()
 
     long long total = count(comb_hor, comb_vert);
     cout << "Total:" << total << endl;
+
+    filter(cells, rows, cols, comb_hor, comb_vert);
+    total = count(comb_hor, comb_vert);
+    cout << "Total after filter: " << total << endl;
 
     for (int i = 0; i < rows; i++)
         delete[] cells[i];
