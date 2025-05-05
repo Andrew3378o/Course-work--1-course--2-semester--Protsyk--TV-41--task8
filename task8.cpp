@@ -223,15 +223,15 @@ long long count(
 }
 
 
-bool contains(vector<int> &big, vector<int> &small)
+bool have_common(const vector<int> &big, const vector<int> &small)
 {
     set<int> big_set(big.begin(), big.end());
     for (int x : small)
     {
-        if (big_set.find(x) == big_set.end())
-            return false;
+        if (big_set.find(x) != big_set.end())
+            return true;
     }
-    return true;
+    return false;
 }
 
 void filter_vectors(vector<vector<int>> &v1, vector<vector<int>> &v2)
@@ -242,7 +242,7 @@ void filter_vectors(vector<vector<int>> &v1, vector<vector<int>> &v2)
     {
         for (auto &b : v2)
         {
-            if (contains(a, b) || contains(b, a))
+            if (have_common(a, b) || have_common(b, a))
             {
                 filtered1.push_back(a);
                 filtered2.push_back(b);
@@ -279,25 +279,29 @@ cell *find_vertical(cell *cells[], int rows, int cols, int i, int j)
     return nullptr;
 }
 
-void filter(cell *cells[], int rows, int cols, unordered_map<cell *, vector<vector<int>>> &horizontal, unordered_map<cell *, vector<vector<int>>> &vertical)
-{
-    for (int i = 0; i < rows; i++)
-    {
-        for (int j = 0; j < cols; j++)
-        {
-            cell &c = cells[i][j];
-            if (c.state == target)
-            {
-                cell *vert = find_vertical(cells, rows, cols, i, j);
-                cell *hor = find_horizontal(cells, rows, cols, i, j);
+void filter_and_generate(cell* cells[], int rows, int cols, unordered_map<cell*, vector<vector<int>>>& horizontal, unordered_map<cell*, vector<vector<int>>>& vertical, unordered_map<cell*, set<int>>& guesses) {
 
-                if (vert && hor)
-                {
-                    vector<vector<int>> &comb_vert = vertical[vert];
-                    vector<vector<int>> &comb_hor = horizontal[hor];
-                    filter_vectors(comb_vert, comb_hor);
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (cells[i][j].state != target) continue;
+
+            cell* hor = find_horizontal(cells, rows, cols, i, j);
+            cell* vert = find_vertical(cells, rows, cols, i, j);
+            if (!hor || !vert) continue;
+            if (!horizontal.count(hor) || !vertical.count(vert)) continue;
+
+            set<int> possible;
+
+            filter_vectors(horizontal[hor], vertical[vert]);
+            for (const auto& comb_hor : horizontal[hor]) {
+                for (const auto& comb_vert : vertical[vert]) {
+                    if (have_common(comb_hor, comb_vert) || have_common(comb_vert, comb_hor)) {
+                        vector<int> v = (comb_hor.size() > comb_vert.size() ? comb_vert : comb_hor);
+                        possible.insert(v.begin(), v.end());
+                    }
                 }
             }
+            guesses[&cells[i][j]] = possible;
         }
     }
 }
@@ -321,14 +325,26 @@ int main()
     print(cells, rows, cols);
     unordered_map<cell*, vector<vector<int>>> comb_hor = generate_horizontal(cells, rows, cols);
     unordered_map<cell*, vector<vector<int>>> comb_vert = generate_vertical(cells, rows, cols);
+    unordered_map<cell*, set<int>> guesses;
 
     long long total = count(comb_hor, comb_vert);
     cout << "Total:" << total << endl;
 
-    filter(cells, rows, cols, comb_hor, comb_vert);
+    filter_and_generate(cells, rows, cols, comb_hor, comb_vert, guesses);
     total = count(comb_hor, comb_vert);
     cout << "Total after filter: " << total << endl;
 
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (cells[i][j].state == target) {
+                cout << i << "-" << j << " : { ";
+                for (int num: guesses[&cells[i][j]]) {
+                    cout << num << " ";
+                }
+                cout <<"}" << endl;
+            }
+        }
+    }
     for (int i = 0; i < rows; i++)
         delete[] cells[i];
 
