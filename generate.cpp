@@ -1,4 +1,5 @@
 #include "generate.h"
+#include "enum.h"
 #include "utils.h"
 
 void generate(vector<int> &current, int start, int cells_left, int sum_left, vector<vector<int>> &result)
@@ -86,11 +87,11 @@ unordered_map<cell *, vector<vector<int>>> generate_vertical(cell *cells[], int 
     return output;
 }
 
-
-void generate_guesses(cell *cells[], int rows, int cols, unordered_map<cell *, set<int>> &guesses)
+unordered_map<cell *, set<int>> generate_guesses(cell *cells[], int rows, int cols)
 {
     unordered_map<cell *, vector<vector<int>>> horizontal = generate_horizontal(cells, rows, cols);
     unordered_map<cell *, vector<vector<int>>> vertical = generate_vertical(cells, rows, cols);
+    unordered_map<cell *, set<int>> guesses;
     for (int i = 0; i < rows; i++)
     {
         for (int j = 0; j < cols; j++)
@@ -122,4 +123,5 @@ void generate_guesses(cell *cells[], int rows, int cols, unordered_map<cell *, s
             guesses[&cells[i][j]] = possible;
         }
     }
+    return guesses;
 }

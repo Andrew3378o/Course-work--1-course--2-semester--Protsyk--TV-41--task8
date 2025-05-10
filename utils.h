@@ -11,5 +11,7 @@ bool have_common(const vector<int> &big, const vector<int> &small);
 void filter_vectors(vector<vector<int>> &v1, vector<vector<int>> &v2);
 cell *find_horizontal(cell *cells[], int i, int j);
 cell *find_vertical(cell *cells[], int i, int j);
+bool check_horizontal(cell *cells[], int i, int j);
+bool check_vertical(cell *cells[], int i, int j);
 
 #endif
