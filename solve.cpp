@@ -2,7 +2,7 @@
 #include "generate.h"
 #include "utils.h"
 
-void solve(cell *cells[], int rows, int cols)
+void solve(Cell *cells[], int rows, int cols)
 {
     map<pair<int, int>, set<int>> g = generate_guesses(cells, rows, cols);
 
@@ -12,7 +12,8 @@ void solve(cell *cells[], int rows, int cols)
         int start_j = -1;
         for (int j = 0; j < cols; j++)
         {
-            if (cells[i][j].state == condition && cells[i][j].sum_right > 0) {
+            if (cells[i][j].state == condition && cells[i][j].sum_right > 0)
+            {
                 target_sum = cells[i][j].sum_right;
                 start_j = j + 1;
                 set<int> seen;
@@ -20,15 +21,18 @@ void solve(cell *cells[], int rows, int cols)
 
                 for (int k = start_j; k < cols; k++)
                 {
-                    if (cells[i][k].state != target) break;
+                    if (cells[i][k].state != target)
+                        break;
 
                     auto key = make_pair(i, k);
                     bool placed = false;
 
                     for (int n : g[key])
                     {
-                        if (seen.count(n)) continue;
-                        if (current_sum + n > target_sum) continue;
+                        if (seen.count(n))
+                            continue;
+                        if (current_sum + n > target_sum)
+                            continue;
 
                         cells[i][k].number = n;
                         seen.insert(n);
@@ -37,7 +41,8 @@ void solve(cell *cells[], int rows, int cols)
                         break;
                     }
 
-                    if (!placed) {
+                    if (!placed)
+                    {
                         cells[i][k].number = 0;
                     }
                 }
@@ -51,7 +56,8 @@ void solve(cell *cells[], int rows, int cols)
         int start_i = -1;
         for (int i = 0; i < rows; i++)
         {
-            if (cells[i][j].state == condition && cells[i][j].sum_down > 0) {
+            if (cells[i][j].state == condition && cells[i][j].sum_down > 0)
+            {
                 target_sum = cells[i][j].sum_down;
                 start_i = i + 1;
                 set<int> seen;
@@ -59,15 +65,18 @@ void solve(cell *cells[], int rows, int cols)
 
                 for (int k = start_i; k < rows; k++)
                 {
-                    if (cells[k][j].state != target) break;
+                    if (cells[k][j].state != target)
+                        break;
 
                     auto key = make_pair(k, j);
                     bool placed = false;
 
                     for (int n : g[key])
                     {
-                        if (seen.count(n)) continue;
-                        if (current_sum + n > target_sum) continue;
+                        if (seen.count(n))
+                            continue;
+                        if (current_sum + n > target_sum)
+                            continue;
 
                         cells[k][j].number = n;
                         seen.insert(n);
@@ -76,7 +85,8 @@ void solve(cell *cells[], int rows, int cols)
                         break;
                     }
 
-                    if (!placed) {
+                    if (!placed)
+                    {
                         cells[k][j].number = 0;
                     }
                 }
@@ -84,3 +94,4 @@ void solve(cell *cells[], int rows, int cols)
         }
     }
 }
+

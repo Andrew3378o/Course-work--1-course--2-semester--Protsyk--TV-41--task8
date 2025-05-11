@@ -2,8 +2,8 @@
 #include <set>
 
 long long count(
-    unordered_map<cell *, vector<vector<int>>> &horizontal,
-    unordered_map<cell *, vector<vector<int>>> &vertical)
+    unordered_map<Cell *, vector<vector<int>>> &horizontal,
+    unordered_map<Cell *, vector<vector<int>>> &vertical)
 {
     long long total = 1;
 
@@ -54,7 +54,7 @@ void filter_vectors(vector<vector<int>> &v1, vector<vector<int>> &v2)
     v2 = filtered2;
 }
 
-cell *find_horizontal(cell *cells[], int i, int j)
+Cell *find_horizontal(Cell *cells[], int i, int j)
 {
     for (int k = j - 1; k >= 0; k--)
     {
@@ -66,7 +66,7 @@ cell *find_horizontal(cell *cells[], int i, int j)
     return nullptr;
 }
 
-cell *find_vertical(cell *cells[], int i, int j)
+Cell *find_vertical(Cell *cells[], int i, int j)
 {
     for (int k = i - 1; k >= 0; k--)
     {
@@ -78,9 +78,9 @@ cell *find_vertical(cell *cells[], int i, int j)
     return nullptr;
 }
 
-bool check_horizontal(cell *cells[], int i, int j)
+bool check_horizontal(Cell *cells[], int i, int j)
 {
-    cell *clue = find_horizontal(cells, i, j);
+    Cell *clue = find_horizontal(cells, i, j);
     int sum_required = clue->sum_right;
     set<int> seen;
     int sum_current = 0;
@@ -105,12 +105,12 @@ bool check_horizontal(cell *cells[], int i, int j)
     for (int col = j - 1; col >= 0 && cells[i][col].state == target; --col)
         ++total_cells;
 
-    return sum_current <= sum_required && (seen.size() == total_cells);
+    return sum_current <= sum_required && ((int)seen.size() == total_cells);
 }
 
-bool check_vertical(cell *cells[], int i, int j)
+bool check_vertical(Cell *cells[], int i, int j)
 {
-    cell *clue = find_vertical(cells, i, j);
+    Cell *clue = find_vertical(cells, i, j);
     int sum_required = clue->sum_down;
     set<int> seen;
     int sum_current = 0;
@@ -135,5 +135,5 @@ bool check_vertical(cell *cells[], int i, int j)
     for (int row = i - 1; row >= 0 && cells[row][j].state == target; --row)
         ++total_cells;
 
-    return sum_current <= sum_required && (seen.size() == total_cells);
+    return sum_current <= sum_required && ((int)seen.size() == total_cells);
 }

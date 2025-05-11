@@ -2,7 +2,7 @@
 #define CELL_H
 #include "enum.h"
 
-class cell
+class Cell
 {
 public:
     int sum_right;
@@ -10,13 +10,13 @@ public:
     int number;
     states state;
 
-    cell(int r, int d) : sum_right(r), sum_down(d), number(0), state(condition) {}
-    cell(int n = 0) : sum_right(0), sum_down(0), number(0)
+    Cell(int r, int d) : sum_right(r), sum_down(d), number(0), state(condition) {}
+    Cell(int n = 0) : sum_right(0), sum_down(0), number(0)
     {
         state = (n == 0) ? none : target;
     }
 
-    cell &operator=(const int n[2])
+    Cell &operator=(const int n[2])
     {
         sum_right = n[0];
         sum_down = n[1];
@@ -24,7 +24,7 @@ public:
         return *this;
     }
 
-    cell &operator=(const int n)
+    Cell &operator=(const int n)
     {
         if (n == 0)
         {

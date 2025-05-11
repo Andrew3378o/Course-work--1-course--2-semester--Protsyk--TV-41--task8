@@ -1,6 +1,7 @@
 #include "generate.h"
 #include "enum.h"
 #include "utils.h"
+#include "group.h"
 #include <map>
 
 void generate(vector<int> &current, int start, int cells_left, int sum_left, vector<vector<int>> &result)
@@ -23,9 +24,9 @@ void generate(vector<int> &current, int start, int cells_left, int sum_left, vec
     }
 }
 
-unordered_map<cell *, vector<vector<int>>> generate_horizontal(cell *cells[], int rows, int cols)
+unordered_map<Cell *, vector<vector<int>>> generate_horizontal(Cell *cells[], int rows, int cols)
 {
-    unordered_map<cell *, vector<vector<int>>> output;
+    unordered_map<Cell *, vector<vector<int>>> output;
 
     for (int i = 0; i < rows; i++)
     {
@@ -56,9 +57,9 @@ unordered_map<cell *, vector<vector<int>>> generate_horizontal(cell *cells[], in
     return output;
 }
 
-unordered_map<cell *, vector<vector<int>>> generate_vertical(cell *cells[], int rows, int cols)
+unordered_map<Cell *, vector<vector<int>>> generate_vertical(Cell *cells[], int rows, int cols)
 {
-    unordered_map<cell *, vector<vector<int>>> output;
+    unordered_map<Cell *, vector<vector<int>>> output;
 
     for (int j = 0; j < cols; j++)
     {
@@ -89,10 +90,10 @@ unordered_map<cell *, vector<vector<int>>> generate_vertical(cell *cells[], int 
     return output;
 }
 
-map<pair<int, int>, set<int>> generate_guesses(cell *cells[], int rows, int cols)
+map<pair<int, int>, set<int>> generate_guesses(Cell *cells[], int rows, int cols)
 {
-    unordered_map<cell *, vector<vector<int>>> horizontal = generate_horizontal(cells, rows, cols);
-    unordered_map<cell *, vector<vector<int>>> vertical = generate_vertical(cells, rows, cols);
+    unordered_map<Cell *, vector<vector<int>>> horizontal = generate_horizontal(cells, rows, cols);
+    unordered_map<Cell *, vector<vector<int>>> vertical = generate_vertical(cells, rows, cols);
     map<pair<int, int>, set<int>> guesses;
 
     for (int i = 0; i < rows; i++)
@@ -102,8 +103,8 @@ map<pair<int, int>, set<int>> generate_guesses(cell *cells[], int rows, int cols
             if (cells[i][j].state != target)
                 continue;
 
-            cell *hor = find_horizontal(cells, i, j);
-            cell *vert = find_vertical(cells, i, j);
+            Cell *hor = find_horizontal(cells, i, j);
+            Cell *vert = find_vertical(cells, i, j);
 
             if (!hor || !vert)
                 continue;
@@ -134,3 +135,64 @@ map<pair<int, int>, set<int>> generate_guesses(cell *cells[], int rows, int cols
     return guesses;
 }
 
+Group generate_horizontal_group(Cell *cells[], int cols, int i, int j)
+{
+    Group group;
+    if (j > 0 && cells[i][j].state == target && cells[i][j - 1].state == condition)
+    {
+        group.sum = cells[i][j - 1].sum_right;
+        int index = j;
+        while (index < cols && cells[i][index].state == target)
+        {
+            group.push_back({i, index});
+            index++;
+        }
+    }
+    return group;
+}
+
+Group generate_vertical_group(Cell *cells[], int rows, int i, int j)
+{
+    Group group;
+    if (i > 0 && cells[i][j].state == target && cells[i - 1][j].state == condition)
+    {
+        group.sum = cells[i - 1][j].sum_down;
+        int index = i;
+        while (index < rows && cells[index][j].state == target)
+        {
+            group.push_back({index, j});
+            index++;
+        }
+    }
+    return group;
+}
+
+vector<Group> generate_horizontal_groups(Cell *cells[], int rows, int cols)
+{
+    vector<Group> groups;
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 1; j < cols; j++)
+        {
+            Group g = generate_horizontal_group(cells, cols, i, j);
+            if (!g.members.empty())
+                groups.push_back(g);
+        }
+    }
+    return groups;
+}
+
+vector<Group> generate_vertical_groups(Cell *cells[], int rows, int cols)
+{
+    vector<Group> groups;
+    for (int j = 0; j < cols; j++)
+    {
+        for (int i = 1; i < rows; i++)
+        {
+            Group g = generate_vertical_group(cells, rows, i, j);
+            if (!g.members.empty())
+                groups.push_back(g);
+        }
+    }
+    return groups;
+}

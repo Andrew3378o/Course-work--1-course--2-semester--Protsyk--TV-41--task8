@@ -3,7 +3,7 @@
 #include <iomanip>
 using namespace std;
 
-void print_row(cell cells[], int cols)
+void print_row(Cell cells[], int cols)
 {
     cout << "+";
     for (int j = 0; j < cols; j++)
@@ -55,7 +55,7 @@ void print_row(cell cells[], int cols)
     cout << endl;
 }
 
-void print(cell *cells[], int rows, int cols)
+void print(Cell *cells[], int rows, int cols)
 {
     for (int i = 0; i < rows; i++)
     {
