@@ -85,7 +85,7 @@ bool check_horizontal(cell *cells[], int i, int j)
     set<int> seen;
     int sum_current = 0;
 
-    for (int col = j - 1; col > 0; --col)
+    for (int col = j - 1; col >= 0; --col)
     {
         if (cells[i][col].state != target)
             break;
@@ -102,13 +102,10 @@ bool check_horizontal(cell *cells[], int i, int j)
     }
 
     int total_cells = 0;
-    for (int col = j - 1; col > 0 && cells[i][col].state == target; --col)
+    for (int col = j - 1; col >= 0 && cells[i][col].state == target; --col)
         ++total_cells;
 
-    if ((int)seen.size() == total_cells)
-        return sum_current == sum_required;
-    else
-        return sum_current < sum_required;
+    return sum_current <= sum_required && (seen.size() == total_cells);
 }
 
 bool check_vertical(cell *cells[], int i, int j)
@@ -118,7 +115,7 @@ bool check_vertical(cell *cells[], int i, int j)
     set<int> seen;
     int sum_current = 0;
 
-    for (int row = i - 1; row > 0; --row)
+    for (int row = i - 1; row >= 0; --row)
     {
         if (cells[row][j].state != target)
             break;
@@ -135,11 +132,8 @@ bool check_vertical(cell *cells[], int i, int j)
     }
 
     int total_cells = 0;
-    for (int row = i - 1; row > 0 && cells[row][j].state == target; --row)
+    for (int row = i - 1; row >= 0 && cells[row][j].state == target; --row)
         ++total_cells;
 
-    if ((int)seen.size() == total_cells)
-        return sum_current == sum_required;
-    else
-        return sum_current < sum_required;
+    return sum_current <= sum_required && (seen.size() == total_cells);
 }

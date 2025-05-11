@@ -8,24 +8,39 @@ using namespace std;
 
 int main()
 {
-    int rows = 10, cols = 10;
-    cell *cells[rows] = {
-        new cell[cols]{0, {0, 23}, {0, 28}, {0, 22}, {0, 5}, {0, 28}, {0, 28}, 0, {0, 10}, {0, 26}},
-        new cell[cols]{{39, 0}, 1, 1, 1, 1, 1, 1, {3, 0}, 1, 1},
-        new cell[cols]{{23, 0}, 1, 1, 1, 1, 1, 1, {9, 22}, 1, 1},
-        new cell[cols]{{24, 0}, 1, 1, 1, {29, 21}, 1, 1, 1, 1, 1},
-        new cell[cols]{{17, 0}, 1, 1, {23, 17}, 1, 1, 1, 1, 1, 1},
-        new cell[cols]{0, {0, 10}, {4, 22}, 1, 1, {17, 28}, 1, 1, {0, 23}, {0, 13}},
-        new cell[cols]{{39, 0}, 1, 1, 1, 1, 1, 1, {13, 22}, 1, 1},
-        new cell[cols]{{26, 0}, 1, 1, 1, 1, 1, {23, 5}, 1, 1, 1},
-        new cell[cols]{{11, 0}, 1, 1, {27, 0}, 1, 1, 1, 1, 1, 1},
-        new cell[cols]{{3, 0}, 1, 1, {23, 0}, 1, 1, 1, 1, 1, 1}};
+    int rows1 = 10, cols1 = 10;
+    cell *cells1[] = {
+        new cell[cols1]{0, {0, 23}, {0, 28}, {0, 22}, {0, 5}, {0, 28}, {0, 28}, 0, {0, 10}, {0, 26}},
+        new cell[cols1]{{39, 0}, 1, 1, 1, 1, 1, 1, {3, 0}, 1, 1},
+        new cell[cols1]{{23, 0}, 1, 1, 1, 1, 1, 1, {9, 22}, 1, 1},
+        new cell[cols1]{{24, 0}, 1, 1, 1, {29, 21}, 1, 1, 1, 1, 1},
+        new cell[cols1]{{17, 0}, 1, 1, {23, 17}, 1, 1, 1, 1, 1, 1},
+        new cell[cols1]{0, {0, 10}, {4, 22}, 1, 1, {17, 28}, 1, 1, {0, 23}, {0, 13}},
+        new cell[cols1]{{39, 0}, 1, 1, 1, 1, 1, 1, {13, 22}, 1, 1},
+        new cell[cols1]{{26, 0}, 1, 1, 1, 1, 1, {23, 5}, 1, 1, 1},
+        new cell[cols1]{{11, 0}, 1, 1, {27, 0}, 1, 1, 1, 1, 1, 1},
+        new cell[cols1]{{3, 0}, 1, 1, {23, 0}, 1, 1, 1, 1, 1, 1}};
 
-    solve(cells, rows, cols);
-    print(cells, rows, cols);
+    solve(cells1, rows1, cols1);
+    print(cells1, rows1, cols1);
 
-    for (int i = 0; i < rows; i++)
-        delete[] cells[i];
+    int rows2 = 7, cols2 = 7;
+    cell *cells2[] = {
+      new cell[cols2]{0, 0, 0, {0, 7}, {0, 16}, 0, 0},
+      new cell[cols2]{0, 0, {15, 35}, 1, 1, {0, 35}, {0, 4}},
+      new cell[cols2]{0, {26, 16}, 1, 1, 1, 1, 1},
+      new cell[cols2]{{12, 0}, 1, 1, {0, 9}, {7, 19}, 1, 1},
+      new cell[cols2]{{27, 0}, 1, 1, 1, 1, 1, {0, 6}},
+      new cell[cols2]{0, {34, 0}, 1, 1, 1, 1, 1},
+      new cell[cols2]{0, {26, 0}, 1, 1, 1, 1, 1}
+    };
 
+    solve(cells2, rows2, cols2);
+    print(cells2, rows2, cols2);
+    for (int i = 0; i < rows1; i++)
+        delete[] cells1[i];
+
+    for (int i = 0; i < rows2; i++)
+      	delete[] cells2[i];
     return 0;
 }
