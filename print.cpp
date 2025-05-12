@@ -3,51 +3,42 @@
 #include <iomanip>
 using namespace std;
 
-void print_row(Cell cells[], int cols)
-{
+void print_row(Cell cells[], int cols){
     cout << "+";
-    for (int j = 0; j < cols; j++)
-    {
+    for (int j = 0; j < cols; j++){
         cout << "-----+";
     }
     cout << endl;
 
     cout << "|";
-    for (int i = 0; i < cols; i++)
-    {
-        if (cells[i].state == none)
-        {
+    for (int i = 0; i < cols; i++){
+        if (cells[i].state == none){
             cout << "     |";
         }
-        else if (cells[i].state == target)
-        {
+        else if (cells[i].state == target){
             cout << "  "<< cells[i].number << "  |";
         }
-        else
-        {
-            if (cells[i].sum_right > 0)
-                cout << " " << setw(2) << cells[i].sum_right << "> |";
-            else
+        else{
+            if (cells[i].sum_right > 0){
+                cout << " " << setw(2) << cells[i].sum_right << "> |"; 
+            }
+            else{
                 cout << "     |";
+            }
         }
     }
     cout << endl;
 
     cout << "|";
-    for (int i = 0; i < cols; i++)
-    {
-        if (cells[i].state == none || cells[i].state == target)
-        {
+    for (int i = 0; i < cols; i++){
+        if (cells[i].state == none || cells[i].state == target){
             cout << "     |";
         }
-        else
-        {
-            if (cells[i].sum_down != 0)
-            {
+        else{
+            if (cells[i].sum_down != 0){
                 cout << " " << setw(2) << cells[i].sum_down << "v |";
             }
-            else
-            {
+            else{
                 cout << "     |";
             }
         }
@@ -55,15 +46,12 @@ void print_row(Cell cells[], int cols)
     cout << endl;
 }
 
-void print(Cell *cells[], int rows, int cols)
-{
-    for (int i = 0; i < rows; i++)
-    {
+void print(Cell *cells[], int rows, int cols){
+    for (int i = 0; i < rows; i++){
         print_row(cells[i], cols);
     }
     cout << "+";
-    for (int j = 0; j < cols; j++)
-    {
+    for (int j = 0; j < cols; j++){
         cout << "-----+";
     }
     cout << endl;

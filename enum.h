@@ -2,8 +2,7 @@
 #define ENUM_H
 
 
-enum states
-{
+enum states{
     none,
     target,
     condition

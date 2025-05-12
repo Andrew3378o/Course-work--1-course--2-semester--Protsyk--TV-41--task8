@@ -6,8 +6,7 @@
 #include "solve.h"
 using namespace std;
 
-int main()
-{
+int main(){
     int rows1 = 10, cols1 = 10;
     Cell *cells1[] = {
         new Cell[cols1]{0, {0, 23}, {0, 28}, {0, 22}, {0, 5}, {0, 28}, {0, 28}, 0, {0, 10}, {0, 26}},
@@ -19,7 +18,8 @@ int main()
         new Cell[cols1]{{39, 0}, 1, 1, 1, 1, 1, 1, {13, 22}, 1, 1},
         new Cell[cols1]{{26, 0}, 1, 1, 1, 1, 1, {23, 5}, 1, 1, 1},
         new Cell[cols1]{{11, 0}, 1, 1, {27, 0}, 1, 1, 1, 1, 1, 1},
-        new Cell[cols1]{{3, 0}, 1, 1, {23, 0}, 1, 1, 1, 1, 1, 1}};
+        new Cell[cols1]{{3, 0}, 1, 1, {23, 0}, 1, 1, 1, 1, 1, 1}
+    };
 
     cout << "Test #1" << endl;
     solve(cells1, rows1, cols1);
@@ -27,22 +27,25 @@ int main()
 
     int rows2 = 7, cols2 = 7;
     Cell *cells2[] = {
-      new Cell[cols2]{0, 0, 0, {0, 7}, {0, 16}, 0, 0},
-      new Cell[cols2]{0, 0, {15, 35}, 1, 1, {0, 35}, {0, 4}},
-      new Cell[cols2]{0, {26, 16}, 1, 1, 1, 1, 1},
-      new Cell[cols2]{{12, 0}, 1, 1, {0, 9}, {7, 19}, 1, 1},
-      new Cell[cols2]{{27, 0}, 1, 1, 1, 1, 1, {0, 6}},
-      new Cell[cols2]{0, {34, 0}, 1, 1, 1, 1, 1},
-      new Cell[cols2]{0, {26, 0}, 1, 1, 1, 1, 1}
+        new Cell[cols2]{0, 0, 0, {0, 7}, {0, 16}, 0, 0},
+        new Cell[cols2]{0, 0, {15, 35}, 1, 1, {0, 35}, {0, 4}},
+        new Cell[cols2]{0, {26, 16}, 1, 1, 1, 1, 1},
+        new Cell[cols2]{{12, 0}, 1, 1, {0, 9}, {7, 19}, 1, 1},
+        new Cell[cols2]{{27, 0}, 1, 1, 1, 1, 1, {0, 6}},
+        new Cell[cols2]{0, {34, 0}, 1, 1, 1, 1, 1},
+        new Cell[cols2]{0, {26, 0}, 1, 1, 1, 1, 1}
     };
 
     cout << "Test #2" << endl;
     solve(cells2, rows2, cols2);
     print(cells2, rows2, cols2);
-    for (int i = 0; i < rows1; i++)
-        delete[] cells1[i];
 
-    for (int i = 0; i < rows2; i++)
-      	delete[] cells2[i];
+    for (int i = 0; i < rows1; i++){
+        delete[] cells1[i];
+    }
+
+    for (int i = 0; i < rows2; i++){
+        delete[] cells2[i];
+    }
     return 0;
 }
