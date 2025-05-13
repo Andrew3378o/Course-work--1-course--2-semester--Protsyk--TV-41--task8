@@ -3,9 +3,9 @@
 
 
 enum states{
-    none,
-    target,
-    condition
+    NONE,
+    TARGET,
+    CONDITION
 };
 
 #endif

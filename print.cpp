@@ -12,11 +12,11 @@ void print_row(Cell cells[], int cols){
 
     cout << "|";
     for (int i = 0; i < cols; i++){
-        if (cells[i].state == none){
+        if (cells[i].state == NONE){
             cout << "     |";
         }
-        else if (cells[i].state == target){
-            cout << "  "<< cells[i].number << "  |";
+        else if (cells[i].state == TARGET){
+            cout << "  " << cells[i].number << "  |";
         }
         else{
             if (cells[i].sum_right > 0){
@@ -31,7 +31,7 @@ void print_row(Cell cells[], int cols){
 
     cout << "|";
     for (int i = 0; i < cols; i++){
-        if (cells[i].state == none || cells[i].state == target){
+        if (cells[i].state == NONE || cells[i].state == TARGET){
             cout << "     |";
         }
         else{

@@ -1,5 +1,6 @@
 #ifndef PRINT_H
 #define PRINT_H
+
 #include "cell.h"
 
 void print_row(Cell cells[], int cols);

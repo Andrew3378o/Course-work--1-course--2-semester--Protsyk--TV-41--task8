@@ -21,10 +21,10 @@ int main(){
         new Cell[cols1]{{3, 0}, 1, 1, {23, 0}, 1, 1, 1, 1, 1, 1}
     };
 
-    cout << "Test #1" << endl;
+    cout << "\nTest #1" << endl;
     solve(cells1, rows1, cols1);
     print(cells1, rows1, cols1);
-
+    
     int rows2 = 7, cols2 = 7;
     Cell *cells2[] = {
         new Cell[cols2]{0, 0, 0, {0, 7}, {0, 16}, 0, 0},
@@ -36,9 +36,27 @@ int main(){
         new Cell[cols2]{0, {26, 0}, 1, 1, 1, 1, 1}
     };
 
-    cout << "Test #2" << endl;
+    cout << "\nTest #2" << endl;
     solve(cells2, rows2, cols2);
     print(cells2, rows2, cols2);
+
+    int rows3 = 10, cols3 = 10;
+    Cell *cells3[]{
+        new Cell[cols3]{0, {0, 17}, {0, 15}, {0, 32}, 0, 0, {0, 16}, {0, 7}, {0, 16}, 0},
+        new Cell[cols3]{{21, 0}, 1, 1, 1, 0, {11, 28}, 1, 1, 1, {0, 29} },
+        new Cell[cols3]{{11, 0}, 1, 1, 1, {29, 21}, 1, 1, 1, 1, 1},
+        new Cell[cols3]{0, {27, 0}, 1, 1, 1, 1, {8, 0}, 1, 1, 1},
+        new Cell[cols3]{0, {0, 11}, {21, 34}, 1, 1, 1, {0, 21}, {15, 17}, 1, 1},
+        new Cell[cols3]{{45, 0}, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        new Cell[cols3]{{8, 0}, 1, 1, {0, 10}, {13, 0}, 1, 1, 1, {0, 9}, 0},
+        new Cell[cols3]{{20, 0}, 1, 1, 1, {12, 16}, 1, 1, 1, 1, {0, 16}},
+        new Cell[cols3]{{29, 0}, 1, 1, 1, 1, 1, {11, 0}, 1, 1, 1},
+        new Cell[cols3]{0, {12,0}, 1, 1, 1, 0, {22, 0}, 1, 1, 1}
+    };
+
+    cout << "\nTest #3" << endl;
+    solve(cells3, rows3, cols3);
+    print(cells3, rows3, cols3);
 
     for (int i = 0; i < rows1; i++){
         delete[] cells1[i];
@@ -47,5 +65,10 @@ int main(){
     for (int i = 0; i < rows2; i++){
         delete[] cells2[i];
     }
+
+    for (int i = 0; i < rows3; i++){
+        delete[] cells3[i];
+    }
+
     return 0;
 }
