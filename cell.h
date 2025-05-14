@@ -2,6 +2,11 @@
 #define CELL_H
 #include "enum.h"
 
+/* ---------------------------------------------------------------------[<]-
+ Struct: Cell
+ Synopsis: describes each cell by the single number if it is target cell or
+ two numbers(sums) if it is conditional cell or none of this.
+ ---------------------------------------------------------------------[>]-*/
 struct Cell{
     int sum_right;
     int sum_down;

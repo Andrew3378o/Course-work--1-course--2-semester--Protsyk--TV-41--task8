@@ -1,3 +1,20 @@
+/* ----------------------------------------------------------------<Header>-
+ Name: task8.cpp
+ Title: Kakuro solver
+
+ Group: TV-41
+ Student: Protsyk A.V.
+
+ Written: 2025-04-25
+ Revised: 2025-05-14
+
+ Description: Write an algorithm for solving the problem and implement it 
+ as a program in ANSI C++. In each white cell, write the numbers from 1 to 9.
+ The sum of the numbers in the horizontal block of white cells is indicated
+ to the left of this block of white cells, and the sum of the numbers in 
+ the vertical block of white cells is indicated above this block. 
+ In each block, you cannot use the same number more than once.
+ ------------------------------------------------------------------</Header>-*/
 #include <iostream>
 #include "cell.h"
 #include "print.h"

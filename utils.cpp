@@ -2,6 +2,10 @@
 #include <algorithm>
 #include <set>
 
+/* ---------------------------------------------------------------------[<]-
+ Function: same
+ Synopsis: Returns the set that contains values common for two original vectors.
+ ---------------------------------------------------------------------[>]-*/
 set<int> same(vector<int> v1, vector<int> v2){
     set<int> output;
     for(int num: v1){
@@ -12,6 +16,10 @@ set<int> same(vector<int> v1, vector<int> v2){
     return output;
 }
 
+/* ---------------------------------------------------------------------[<]-
+ Function: find_horizontal
+ Synopsis: Returns the pointer to the nearest horizontal conditional cell.
+ ---------------------------------------------------------------------[>]-*/
 Cell* find_horizontal(Cell **cells, int i, int j){
     for (int k = j - 1; k >= 0; k--){
         if (cells[i][k].state == CONDITION){
@@ -21,6 +29,10 @@ Cell* find_horizontal(Cell **cells, int i, int j){
     return nullptr;
 }
 
+/* ---------------------------------------------------------------------[<]-
+ Function: find_vertical
+ Synopsis: Returns the pointer to the nearest vertical conditional cell.
+ ---------------------------------------------------------------------[>]-*/
 Cell *find_vertical(Cell **cells, int i, int j){
     for (int k = i - 1; k >= 0; k--){
         if (cells[k][j].state == CONDITION){
@@ -30,6 +42,10 @@ Cell *find_vertical(Cell **cells, int i, int j){
     return nullptr;
 }
 
+/* ---------------------------------------------------------------------[<]-
+ Function: filter_guesses
+ Synopsis: Filters possible values in each target cell to prevent conflicts.
+ ---------------------------------------------------------------------[>]-*/
 void filter_guesses(Cell **cells, int rows, int cols, map<pair<int, int>, set<int>> &guesses) {
     bool changed = true;
     while (changed) {

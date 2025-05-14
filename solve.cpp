@@ -9,6 +9,10 @@ using namespace std;
 long long steps = 0;
 auto start_time = chrono::high_resolution_clock::now();
 
+/* ---------------------------------------------------------------------[<]-
+ Function: is_board_valid
+ Synopsis: Checks if the grid is filled in correctly.
+ ---------------------------------------------------------------------[>]-*/
 bool is_board_valid(Cell **cells, int rows, int cols) {
     for (int i = 0; i < rows; i++) {
         int j = 0;
@@ -96,6 +100,10 @@ bool is_board_valid(Cell **cells, int rows, int cols) {
     return true; 
 }
 
+/* ---------------------------------------------------------------------[<]-
+ Function: is_board_complete
+ Synopsis: Checks if the grid is completed.
+ ---------------------------------------------------------------------[>]-*/
 bool is_board_complete(Cell **cells, int rows, int cols) {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -107,6 +115,10 @@ bool is_board_complete(Cell **cells, int rows, int cols) {
     return true;
 }
 
+/* ---------------------------------------------------------------------[<]-
+ Function: find_empty_cell
+ Synopsis: Returns true if it is possible to find next target cell.
+ ---------------------------------------------------------------------[>]-*/
 bool find_empty_cell(Cell **cells, int rows, int cols, int &row, int &col) {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -120,6 +132,10 @@ bool find_empty_cell(Cell **cells, int rows, int cols, int &row, int &col) {
     return false;
 }
 
+/* ---------------------------------------------------------------------[<]-
+ Function: count_filled_cells
+ Synopsis: Returns the number of filled in cells at the current moment.
+ ---------------------------------------------------------------------[>]-*/
 int count_filled_cells(Cell **cells, int rows, int cols) {
     int count = 0;
     for (int i = 0; i < rows; i++) {
@@ -132,6 +148,10 @@ int count_filled_cells(Cell **cells, int rows, int cols) {
     return count;
 }
 
+/* ---------------------------------------------------------------------[<]-
+ Function: count_total_cells
+ Synopsis: Returns the number of target cells in the grid.
+ ---------------------------------------------------------------------[>]-*/
 int count_total_cells(Cell **cells, int rows, int cols) {
     int count = 0;
     for (int i = 0; i < rows; i++) {
@@ -144,6 +164,10 @@ int count_total_cells(Cell **cells, int rows, int cols) {
     return count;
 }
 
+/* ---------------------------------------------------------------------[<]-
+ Function: show_progress
+ Synopsis: Shows current progress of filling cells.
+ ---------------------------------------------------------------------[>]-*/
 void show_progress(int filled, int total) {
     steps++;
     if (steps % 1000 == 0) {
@@ -153,6 +177,11 @@ void show_progress(int filled, int total) {
     }
 }
 
+/* ---------------------------------------------------------------------[<]-
+ Function: solve_helper
+ Synopsis: Tries to fill the cells, taking into account the current state of the grid,
+ if successful - move forward, otherwise - back.
+ ---------------------------------------------------------------------[>]-*/
 bool solve_helper(Cell **cells, int rows, int cols, int total_cells, map<pair<int, int>, set<int>> guesses) {
     
     int filled = count_filled_cells(cells, rows, cols);
@@ -180,6 +209,10 @@ bool solve_helper(Cell **cells, int rows, int cols, int total_cells, map<pair<in
     return false;
 }
 
+/* ---------------------------------------------------------------------[<]-
+ Function: solve
+ Synopsis: Solves the puzzle and prints the details of the process.
+ ---------------------------------------------------------------------[>]-*/
 void solve(Cell **cells, int rows, int cols) {
     steps = 0;
     start_time = chrono::high_resolution_clock::now();

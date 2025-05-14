@@ -3,6 +3,10 @@
 #include "utils.h"
 #include <map>
 
+/* ---------------------------------------------------------------------[<]-
+ Function: generate
+ Synopsis: Creating combinations of values ​​using a recursive call.
+ ---------------------------------------------------------------------[>]-*/
 void generate(vector<int> &current, int start, int cells_left, int sum_left, vector<vector<int>> &result) {
     if (cells_left == 0) {
         if (sum_left == 0) {
@@ -22,6 +26,11 @@ void generate(vector<int> &current, int start, int cells_left, int sum_left, vec
     }
 }
 
+/* ---------------------------------------------------------------------[<]-
+ Function: generate_horizontal
+ Synopsis: Returns a map where each target cell corresponds to a vector
+ of possible horizontal combinations.
+ ---------------------------------------------------------------------[>]-*/
 unordered_map<Cell*, vector<vector<int>>> generate_horizontal(Cell **cells, int rows, int cols) {
     unordered_map<Cell*, vector<vector<int>>> output;
 
@@ -48,6 +57,11 @@ unordered_map<Cell*, vector<vector<int>>> generate_horizontal(Cell **cells, int 
     return output;
 }
 
+/* ---------------------------------------------------------------------[<]-
+ Function: generate_vertical
+ Synopsis: Returns a map where each target cell corresponds to a vector
+ of possible vertical combinations.
+ ---------------------------------------------------------------------[>]-*/
 unordered_map<Cell*, vector<vector<int>>> generate_vertical(Cell **cells, int rows, int cols) {
     unordered_map<Cell *, vector<vector<int>>> output;
 
@@ -74,6 +88,11 @@ unordered_map<Cell*, vector<vector<int>>> generate_vertical(Cell **cells, int ro
     return output;
 }
 
+/* ---------------------------------------------------------------------[<]-
+ Function: generate_guesses
+ Synopsis: Returns a map where each pair of coordinates of a target cell 
+ corresponds to a set of possible values in this cell.
+ ---------------------------------------------------------------------[>]-*/
 map<pair<int, int>, set<int>> generate_guesses(Cell **cells, int rows, int cols){
     unordered_map<Cell *, vector<vector<int>>> horizontal = generate_horizontal(cells, rows, cols);
     unordered_map<Cell *, vector<vector<int>>> vertical = generate_vertical(cells, rows, cols);

@@ -3,6 +3,10 @@
 #include <iomanip>
 using namespace std;
 
+/* ---------------------------------------------------------------------[<]-
+ Function: print_row
+ Synopsis: Prints a single row of the entire grid of cells.
+ ---------------------------------------------------------------------[>]-*/
 void print_row(Cell cells[], int cols){
     cout << "+";
     for (int j = 0; j < cols; j++){
@@ -46,6 +50,10 @@ void print_row(Cell cells[], int cols){
     cout << endl;
 }
 
+/* ---------------------------------------------------------------------[<]-
+ Function: print
+ Synopsis: Prints an entire grid of cells.
+ ---------------------------------------------------------------------[>]-*/
 void print(Cell *cells[], int rows, int cols){
     for (int i = 0; i < rows; i++){
         print_row(cells[i], cols);
