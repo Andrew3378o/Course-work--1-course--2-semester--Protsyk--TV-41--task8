@@ -173,7 +173,7 @@ void show_progress(int filled, int total) {
     if (steps % 1000 == 0) {
         auto current_time = chrono::high_resolution_clock::now();
         auto duration = chrono::duration_cast<chrono::milliseconds>(current_time - start_time).count();
-        cout << "\rFilled: " << filled << "/" << total << " | Elapsed: " << duration / 1000 << " seconds" << flush;
+        cout << "\rFilled: " << filled << "/" << total << " | Elapsed: " << duration / 1000.0 << " seconds" << flush;
     }
 }
 
