@@ -6,7 +6,7 @@
  Student: Protsyk A.V.
 
  Written: 2025-04-25
- Revised: 2025-05-14
+ Revised: 2025-05-16
 
  Description: Write an algorithm for solving the problem and implement it 
  as a program in ANSI C++. In each white cell, write the numbers from 1 to 9.
