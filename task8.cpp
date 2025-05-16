@@ -16,6 +16,7 @@
  In each block, you cannot use the same number more than once.
  ------------------------------------------------------------------</Header>-*/
 #include <iostream>
+#include <string>
 #include "cell.h"
 #include "print.h"
 #include "generate.h"
@@ -24,6 +25,15 @@
 using namespace std;
 
 int main(){
+
+    print_title("Hello and welcome to my Kakuro solver programm!", SIZE);
+    print_title("Type \"next\" to look at the next puzzle and its solution.", SIZE);
+    print_title("Type \"exit\" to exit the programm.", SIZE);
+    cout << "+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+" << endl;
+ 
+    string exit = "exit", next = "next", user_input;
+    get_input(next, exit, user_input);
+    
     int rows1 = 10, cols1 = 10;
     Cell *cells1[] = {
         new Cell[cols1]{0, {0, 23}, {0, 28}, {0, 22}, {0, 5}, {0, 28}, {0, 28}, 0, {0, 10}, {0, 26}},
@@ -38,10 +48,11 @@ int main(){
         new Cell[cols1]{{3, 0}, 1, 1, {23, 0}, 1, 1, 1, 1, 1, 1}
     };
 
-    cout << "\nTest #1" << endl;
     solve(cells1, rows1, cols1);
     print(cells1, rows1, cols1);
     
+    get_input(next, exit, user_input);
+
     int rows2 = 7, cols2 = 7;
     Cell *cells2[] = {
         new Cell[cols2]{0, 0, 0, {0, 7}, {0, 16}, 0, 0},
@@ -53,9 +64,10 @@ int main(){
         new Cell[cols2]{0, {26, 0}, 1, 1, 1, 1, 1}
     };
 
-    cout << "\nTest #2" << endl;
     solve(cells2, rows2, cols2);
     print(cells2, rows2, cols2);
+
+    get_input(next, exit, user_input);
 
     int rows3 = 10, cols3 = 10;
     Cell *cells3[]{
@@ -71,7 +83,6 @@ int main(){
         new Cell[cols3]{0, {12,0}, 1, 1, 1, 0, {22, 0}, 1, 1, 1}
     };
 
-    cout << "\nTest #3" << endl;
     solve(cells3, rows3, cols3);
     print(cells3, rows3, cols3);
 
@@ -86,6 +97,10 @@ int main(){
     for (int i = 0; i < rows3; i++){
         delete[] cells3[i];
     }
+
+    cout << endl;
+    print_title((string)"Thank you for using my programm <3", SIZE);
+    cout << "+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+" << endl;
 
     return 0;
 }

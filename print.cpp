@@ -1,5 +1,6 @@
 #include "print.h"
 #include <iostream>
+#include <string>
 #include <iomanip>
 using namespace std;
 
@@ -20,7 +21,7 @@ void print_row(Cell cells[], int cols){
             cout << "     |";
         }
         else if (cells[i].state == TARGET){
-            cout << "  " << cells[i].number << "  |";
+            cout << "\033[47m" << "  " << "\033[30m" << cells[i].number << "  " << "\033[0m" << "|";
         }
         else{
             if (cells[i].sum_right > 0){
@@ -35,8 +36,11 @@ void print_row(Cell cells[], int cols){
 
     cout << "|";
     for (int i = 0; i < cols; i++){
-        if (cells[i].state == NONE || cells[i].state == TARGET){
+        if (cells[i].state == NONE){
             cout << "     |";
+        }
+        else if(cells[i].state == TARGET){
+            cout << "\033[47m" << "     " << "\033[0m"  << "|";
         }
         else{
             if (cells[i].sum_down != 0){
@@ -64,3 +68,36 @@ void print(Cell *cells[], int rows, int cols){
     }
     cout << endl;
 }
+
+/* ---------------------------------------------------------------------[<]-
+ Function: print_title
+ Synopsis: Prints user-friendly titles.
+ ---------------------------------------------------------------------[>]-*/
+void print_title(string title, int cols) {
+    int len = title.length();
+
+    if (cols == 0 && cols <= len) {
+        for (int i = 0; i < len; ++i){
+            cout << (i % 6 == 0 ? '+' : '-');
+        }
+        cout << endl;
+        cout << title << endl;
+    } 
+    else {
+        int d = cols * 6 + 1;
+
+        for (int i = 0; i < d; ++i){
+            cout << (i % 6 == 0 ? '+' : '-');
+        }
+        cout << '\n';
+
+        int space_total = d - 2 - len; 
+        int space_left = space_total / 2;
+        int space_right = space_total - space_left;
+
+        cout << '|' << string(space_left, ' ') << title << string(space_right, ' ') << '|';
+
+        cout << endl;
+    }
+}
+

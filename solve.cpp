@@ -1,12 +1,15 @@
 #include "solve.h"
 #include "generate.h"
 #include "utils.h"
+#include "print.h"
 #include <iostream>
+#include <string>
 #include <iomanip>
 #include <chrono>
 using namespace std;
 
 long long steps = 0;
+static int counter = 1;
 auto start_time = chrono::high_resolution_clock::now();
 
 /* ---------------------------------------------------------------------[<]-
@@ -173,7 +176,21 @@ void show_progress(int filled, int total) {
     if (steps % 1000 == 0) {
         auto current_time = chrono::high_resolution_clock::now();
         auto duration = chrono::duration_cast<chrono::milliseconds>(current_time - start_time).count();
-        cout << "\rFilled: " << filled << "/" << total << " | Elapsed: " << duration / 1000.0 << " seconds" << flush;
+
+        double ratio = static_cast<double>(filled) / total;
+
+        string color;
+        if (ratio > 2.0 / 3.0) {
+            color = "\033[32m"; 
+        } else if (ratio > 1.0 / 3.0) {
+            color = "\033[33m"; 
+        } else {
+            color = "\033[31m"; 
+        }
+
+        string reset = "\033[0m";
+
+        cout << "\r" << color << "Filled: " << filled << "/" << total << reset << " | Elapsed: " << duration / 1000 << " seconds" << flush;
     }
 }
 
@@ -225,7 +242,7 @@ void solve(Cell **cells, int rows, int cols) {
         }
     }
     
-    cout << "\nStarting to solve..." << endl;
+    cout << "\nStarting to solve test #" << counter << "..." << endl;
     int total_cells = count_total_cells(cells, rows, cols);
     
     map<pair<int, int>, set<int>> guesses = generate_guesses(cells, rows, cols);
@@ -235,8 +252,15 @@ void solve(Cell **cells, int rows, int cols) {
     auto duration = chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
     
     if (solved) {
-        cout << "\nPuzzle solved in " << steps << " steps! (" << duration / 1000.0 << " seconds)" << endl;
+        cout << endl;
+        print_title("Test #" + to_string(counter), cols);
+        string text = "Solved in " + to_string(steps) + " steps! (" +to_string(duration / 1000) + " seconds)";
+        print_title(text, cols);
     } else {
-        cout << "\nNo solution found after " << steps << " steps. (" << duration / 1000.0 << " seconds)" << endl;
+        cout << endl;
+        print_title("Test #" + to_string(counter), cols);
+        string text = "No solution found after " + to_string(steps) + " steps. (" + to_string(duration / 1000) + " seconds)";
+        print_title(text, cols);
     }
+    counter++;
 }

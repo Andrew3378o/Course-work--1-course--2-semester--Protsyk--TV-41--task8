@@ -1,6 +1,10 @@
-#include "utils.h"
 #include <algorithm>
 #include <set>
+#include <cstdlib>
+#include <iostream>
+#include "utils.h"
+#include "print.h"
+using namespace std;
 
 /* ---------------------------------------------------------------------[<]-
  Function: same
@@ -87,4 +91,30 @@ void filter_guesses(Cell **cells, int rows, int cols, map<pair<int, int>, set<in
             }
         }
     }
+}
+
+/* ---------------------------------------------------------------------[<]-
+ Function: get_input
+ Synopsis: Asks user to type one of the options to show next test or exit.
+ ---------------------------------------------------------------------[>]-*/
+void get_input(std::string next, std::string exit, std::string user){
+    while (true){
+        cout << "Your response: ";
+        cin >> user;
+        if(user == next){
+            break;
+        }
+        else if(user == exit){
+            cout << endl;
+            print_title("Thank you for using my programm <3", SIZE);
+            cout << "+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+" << endl;
+            std::exit(0);
+        }
+        else{
+            cout << endl;
+            print_title("You entered invalid option, try again", SIZE);
+            cout << "+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+" << endl;
+        }
+    }
+    user.clear();
 }
